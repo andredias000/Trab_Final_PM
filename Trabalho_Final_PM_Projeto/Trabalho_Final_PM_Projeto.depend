@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1543223675 source:c:\pessoal\engenharia eletrotécnica e de computadores\1º semestre\programação de microprocessadores\codeblocks projects\trabalho_final_pm_projeto\main.c
+	<stdio.h>
+	<stdlib.h>
+
