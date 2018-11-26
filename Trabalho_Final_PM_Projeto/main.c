@@ -35,7 +35,6 @@ void menu(){
     scanf(" %c", &opcao);
 
     switch(opcao){
-        getchar();
         case '1':
             showStock();
     }
