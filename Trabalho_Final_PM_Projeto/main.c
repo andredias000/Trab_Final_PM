@@ -1,10 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-//fp = fopen("stock.txt", "r");
-//while(if scanf(fp, "%c %s %lf", &ld, tipo, &preco)!EOF)
+#include <string.h>
 
 void showStock(){
-    fp = fopen8"
+    char id;
+    char type[8];
+    double price;
+
+    FILE *fp;
+    fp = fopen("stock.txt", "r");
+    if(fp == NULL){
+        printf("Ficheiro Vazio.\n");
+    }
+    while(fscanf(fp, "%c %s %lf\n", &id, &type, &price)!=EOF){
+        printf("%c  %s  %lf\n", id, type, price);
+    }
+    fclose(fp);
 }
 
 
@@ -24,6 +35,7 @@ void menu(){
     scanf(" %c", &opcao);
 
     switch(opcao){
+        getchar();
         case '1':
             showStock();
     }
