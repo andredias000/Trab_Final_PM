@@ -2,6 +2,29 @@
 #include <stdlib.h>
 #include <string.h>
 
+void addStock(){
+    FILE *stockFile;
+    FILE *additionalFile;
+    char adicionarStock[100];
+    char linha_novo_stock[100];
+
+    printf("Por favor introduza o nome do ficheiro incluindo o \".txt\"\n");
+    gets(adicionarStock);
+
+    stockFile = fopen(adicionarStock, "r");
+    additionalFile = fopen("stock.txt", "rw");
+
+    if(additionalFile == NULL){
+        printf("Erro na leitura do ficheiro.\n");
+    }
+
+    while(fgets(linha_novo_stock, 100, adicionarStock)!=EOF){
+          fputs(linha_novo_stock, stockFile);
+    }
+
+    fclose(additionalFile);
+    fclose(stockFile);
+}
 void showStock(){
     int id;
     char type[9];
@@ -14,7 +37,7 @@ void showStock(){
     FILE *fp;
     fp = fopen("stock.txt", "r");
     if(fp == NULL){         //Verificar se o ficheiro existe
-        printf("Ficheiro Nao lido.\n");
+        printf("Erro na leitura do ficheiro.\n");
     }
     while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){     //Ler o Ficheiro
         printf("%d  %s  %.2lf\n", id, type, price);
@@ -29,7 +52,7 @@ void showStock(){
     for (int i=0; i<6; i++){
         printf("Existem %d materiais de %s\n", totalMateriais[i], materiais[i]);      //Imprimir a soma dos materiais e o respetivo tipo
     }
-    
+
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
     fclose(fp);
 
@@ -59,6 +82,7 @@ void menu(){
             showStock();
             break;
         case '2':
+            addStock();
             break;
         case '3':
             break;
