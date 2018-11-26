@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 void showStock(){
     int id;
     char type[9];
@@ -31,7 +29,7 @@ void showStock(){
     for (int i=0; i<6; i++){
         printf("Existem %d materiais de %s\n", totalMateriais[i], materiais[i]);      //Imprimir a soma dos materiais e o respetivo tipo
     }
-
+    
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
     fclose(fp);
 
