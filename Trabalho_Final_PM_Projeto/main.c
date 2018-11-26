@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
 void showStock(){
     int id;
     char type[9];
@@ -69,12 +71,12 @@ void menu(){
         case '6':
             break;
         case 'S':
-            printf("Obrigado por usar o nosso programa :D\n\n");
+            printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
             system(" PAUSE ");
             exit(1);
             break;
         case 's':
-            printf("Obrigado por usar o nosso programa :D\n\n");
+            printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
             system(" PAUSE ");
             exit(1);
             break;
@@ -89,6 +91,5 @@ void menu(){
 
 int main()
 {
-
     menu();
 }
