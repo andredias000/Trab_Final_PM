@@ -16,11 +16,7 @@ void showStock(){
     while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){
         printf("%d  %s  %.2lf\n", id, type, price);
     }
-    /*while(fgets(input,255,fp) != NULL){
-            sscanf(input, "%d %s %.2lf\n", &id, type, &price);
-            printf("%d  %s  %.2lf\n", id, type, price);
-        //printf("%d  %s  %.2lf\n", id, type, price);
-    }*/
+
     fclose(fp);
 }
 
