@@ -3,18 +3,24 @@
 #include <string.h>
 
 void showStock(){
-    char id;
-    char type[8];
+    int id;
+    char type[9];
     double price;
+    char input[255];
 
     FILE *fp;
     fp = fopen("stock.txt", "r");
     if(fp == NULL){
-        printf("Ficheiro Vazio.\n");
+        printf("Ficheiro Nao lido.\n");
     }
-    while(fscanf(fp, "%c %s %lf\n", &id, &type, &price)!=EOF){
-        printf("%c  %s  %lf\n", id, type, price);
+    while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){
+        printf("%d  %s  %.2lf\n", id, type, price);
     }
+    /*while(fgets(input,255,fp) != NULL){
+            sscanf(input, "%d %s %.2lf\n", &id, type, &price);
+            printf("%d  %s  %.2lf\n", id, type, price);
+        //printf("%d  %s  %.2lf\n", id, type, price);
+    }*/
     fclose(fp);
 }
 
