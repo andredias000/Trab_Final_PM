@@ -3,10 +3,12 @@
 #include <string.h>
 
 void addStock(){
+    fflush(stdin); //Limpar Buffer de Input
     FILE *stockFile;
     FILE *additionalFile;
+
     char adicionarStock[100];
-    char linha_novo_stock[100];
+    char linha_novo_stock;
 
     printf("Por favor introduza o nome do ficheiro incluindo o \".txt\"\n");
     gets(adicionarStock);
@@ -18,8 +20,8 @@ void addStock(){
         printf("Erro na leitura do ficheiro.\n");
     }
 
-    while(fgets(linha_novo_stock, 100, adicionarStock)!=EOF){
-          fputs(linha_novo_stock, stockFile);
+    while((fscanf(adicionarStock, " %c", &linha_novo_stock))!=  EOF){
+        fputc(stockFile, linha_novo_stock);
     }
 
     fclose(additionalFile);
