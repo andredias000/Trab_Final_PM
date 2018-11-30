@@ -33,6 +33,7 @@ void showStock(){
     double price;
     int totalMateriais[6] = {0};
     double totalPreco = 0;
+    double precoMateriais[6] = {0};
     char materiais[6][9];
 
     //Abrir o ficheiro
@@ -46,13 +47,14 @@ void showStock(){
 
         totalMateriais[id-1]++;
         totalPreco += price;
+        precoMateriais[id-1] += price;
         strcpy(materiais[id-1], type);
     }
 
     printf("\n");
 
     for (int i=0; i<6; i++){
-        printf("Existem %d materiais de %s\n", totalMateriais[i], materiais[i]);      //Imprimir a soma dos materiais e o respetivo tipo
+        printf("Existem %d materiais de %s com um valor de %.2f\n", totalMateriais[i], materiais[i], precoMateriais[i]);      //Imprimir a soma dos materiais e o respetivo tipo
     }
 
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
