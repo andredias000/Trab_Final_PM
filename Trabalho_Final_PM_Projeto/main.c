@@ -2,6 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct{
+    int quantity;       //Criação de uma estrutura tendo em vista a facilitação da adição
+    char type[9];       //de novos ficherios de stock e adiciona-los com mais facilidade
+    double price;
+
+}stockExistente[6];
+
 void addStock(){
     fflush(stdin); //Limpar Buffer de Input
     FILE *stockFile;
@@ -20,10 +27,6 @@ void addStock(){
         printf("Erro na leitura do ficheiro.\n");
     }
 
-    while((fscanf(adicionarStock, " %c", &linha_novo_stock))!=  EOF){
-        fputc(stockFile, linha_novo_stock);
-    }
-
     fclose(additionalFile);
     fclose(stockFile);
 }
@@ -31,10 +34,8 @@ void showStock(){
     int id;
     char type[9];
     double price;
-    int totalMateriais[6] = {0};
     double totalPreco = 0;
-    double precoMateriais[6] = {0};
-    char materiais[6][9];
+    stockExistente stock;
 
     //Abrir o ficheiro
     FILE *fp;
@@ -42,19 +43,23 @@ void showStock(){
     if(fp == NULL){         //Verificar se o ficheiro existe
         printf("Erro na leitura do ficheiro.\n");
     }
+    for (int i=0; i<6; i++){
+        stock[i].quantity = 0;
+        stock[i].price = 0.0;   //Dar reset a quantidade da estrutura
+    }
     while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){     //Ler o Ficheiro
         printf("%d  %s  %.2lf\n", id, type, price);
 
-        totalMateriais[id-1]++;
-        totalPreco += price;
-        precoMateriais[id-1] += price;
-        strcpy(materiais[id-1], type);
+        strcpy(stock[id-1].type, type);    //copiar o nome do tipo para a estrutura
+        stock[id-1].quantity++;    //Adicinar a quantidade de material dependendo do tipo à estrutura
+        stock[id-1].price += price;    //Adicionar o preço total à estrutura
     }
 
     printf("\n");
 
     for (int i=0; i<6; i++){
-        printf("Existem %d materiais de %s com um valor de %.2f\n", totalMateriais[i], materiais[i], precoMateriais[i]);      //Imprimir a soma dos materiais e o respetivo tipo
+        totalPreco += stock[i].price;  //Preço total do stock a apresentar
+        printf("Existem %d materiais de %s com um valor de %.2f\n", stock[i].quantity, stock[i].type, stock[i].price);      //Imprimir a soma dos materiais e o respetivo tipo
     }
 
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
@@ -117,5 +122,7 @@ void menu(){
 
 int main()
 {
+
+
     menu();
 }
