@@ -64,8 +64,8 @@ void showStock(){
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
     fclose(fp);
 
-    system(" PAUSE "); // Esperar por input do utilizador
-    menu();
+    /*system(" PAUSE "); // Esperar por input do utilizador
+    menu();*/
 }
 
 
@@ -112,10 +112,12 @@ void menu(){
             break;
         default:
             printf("Opcao Invalida.\n");
-            system(" PAUSE ");
-            menu();
+            /*system(" PAUSE ");
+            menu();*/
             break;
     }
+    system(" PAUSE "); // Esperar por input do utilizador
+    menu();
 }
 
 
