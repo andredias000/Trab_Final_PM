@@ -26,7 +26,6 @@ void addStock(){
     if(additionalFile == NULL){
         printf("Erro na leitura do ficheiro.\n");
     }
-
     fclose(additionalFile);
     fclose(stockFile);
 }
