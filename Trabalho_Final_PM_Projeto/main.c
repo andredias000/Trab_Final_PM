@@ -14,9 +14,9 @@ typedef struct{
     char place;
     unsigned short timeLeft;
     char op[3]; //operação
-}car[300];
+}car;
 
-void buildCar(stockExistente *stock){
+void buildCar(stockExistente *stock, car *cars){
 
     int option = 0;
 
@@ -96,7 +96,7 @@ void initializeStructure(stockExistente *stock){
 }
 
 //Establish menu
-void menu(stockExistente *stock){
+void menu(stockExistente *stock, car *cars){
     system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
@@ -123,7 +123,7 @@ void menu(stockExistente *stock){
             addStock(stock, fileName);
             break;
         case '3':
-            buildCar(stock);
+            buildCar(stock, cars);
             break;
         case '4':
             break;
@@ -146,19 +146,20 @@ void menu(stockExistente *stock){
             break;
     }
     system(" PAUSE "); // Esperar por input do utilizador
-    menu(stock);
+    menu(stock, cars);
 }
 
 
 int main()
 {
     stockExistente stock[6];
+    car cars[300];
     initializeStructure(stock);     //Zona de inicialização do stock
     addStock(stock, "stock.txt");      //Zona de adição do add Stock
     char brand[9], status[11], place, op[3];
     unsigned short timeLeft = 0;
 
-    car cars;
+
     FILE *fp;
     int i;
     for(i = 0; i<20; i++){
@@ -183,5 +184,5 @@ int main()
         }
     fclose(fp);
 
-    menu(stock);
+    menu(stock, cars);
 }
