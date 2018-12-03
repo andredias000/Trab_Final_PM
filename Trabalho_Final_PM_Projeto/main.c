@@ -6,9 +6,18 @@ typedef struct{
     int quantity;       //Criação de uma estrutura tendo em vista a facilitação da adição
     char type[9];       //de novos ficherios de stock e adiciona-los com mais facilidade
     double price;
-
 }stockExistente[6];
+typedef struct{
+    char brand[9];
+    char status[11];
+    char place;
+    unsigned short timeLeft;
+    char op[3]; //operação
+}car[300];
 
+void build(){
+
+}
 void addStock(){
     fflush(stdin); //Limpar Buffer de Input
     FILE *stockFile;
@@ -93,6 +102,7 @@ void menu(){
             addStock();
             break;
         case '3':
+            build();
             break;
         case '4':
             break;
@@ -123,6 +133,35 @@ void menu(){
 
 int main()
 {
+    char brand[9], status[11], place, op[3];
+    unsigned short timeLeft = 0;
+
+    car cars;
+    FILE *fp;
+    int i;
+    for(i = 0; i<20; i++){
+        cars[i].brand;
+        cars[i].status;
+        cars[i].place = '-';
+        cars[i].timeLeft = 0;
+        cars[i].op;
+        strcpy(cars[i].brand, "\0");
+        strcpy(cars[i].status, "Waiting\0");
+        strcpy(cars[i].op, "---\0");
+    }
+
+    fp = fopen("processing.txt", "r");
+    if(fp == NULL){         //Verificar se o ficheiro existe
+        printf("Erro na leitura do ficheiro.\n");
+    }
+    i = 0;
+
+    while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
+            printf("%s %s %c %hu %s\n", cars[i].brand, cars[i].status, cars[i].place, cars[i].timeLeft, cars[i].op);
+            i++;
+        }
+    fclose(fp);
+    system(" PAUSE ");
 
 
     menu();
