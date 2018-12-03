@@ -16,7 +16,7 @@ typedef struct{
     char op[3]; //operação
 }car;
 
-void buildCar(stockExistente *stock, car *cars){
+void buildCar(stockExistente *stock, car *cars, int machine[5]){
 
     int option = 0;
 
@@ -33,25 +33,50 @@ void buildCar(stockExistente *stock, car *cars){
             if(stock[0].quantity >= 2 && stock[2].quantity >= 1 && stock[3].quantity >= 3){
                 printf("Existem materiais suficientes para a construcao do Renault.");
             }
+            else{
+                printf("Erro, nao existem materiais suficientes.");
+                system(" PAUSE ");
+                menu(stock, cars, machine);
+            }
             break;
         case 2:
             if(stock[1].quantity >= 3 && stock[2].quantity >= 2 && stock[5].quantity >= 2){
                 printf("Existem materiais suficientes para a construcao do Mercedes.");
+            }
+            else{
+                printf("Erro, nao existem materiais suficientes.");
+                system(" PAUSE ");
+                menu(stock, cars, machine);
             }
             break;
         case 3:
             if(stock[0].quantity >= 4 && stock[2].quantity >= 1 && stock[3].quantity >= 3 && stock[4].quantity >= 2){
                 printf("Existem materiais suficientes para a construcao do Honda.");
             }
+            else{
+                printf("Erro, nao existem materiais suficientes.");
+                system(" PAUSE ");
+                menu(stock, cars, machine);
+            }
             break;
         case 4:
             if(stock[1].quantity >= 1 && stock[2].quantity >= 2 && stock[3].quantity >= 3 && stock[4].quantity >= 1 && stock[5].quantity >= 3){
                 printf("Existem materiais suficientes para a construcao do Honda.");
             }
+            else{
+                printf("Erro, nao existem materiais suficientes.");
+                system(" PAUSE ");
+                menu(stock, cars, machine);
+            }
             break;
         case 5:
             if(stock[0].quantity >= 2 && stock[1].quantity >= 2 && stock[2].quantity >= 3 && stock[5].quantity >= 2){
                 printf("Existem materiais suficientes para a construcao do Honda.");
+            }
+            else{
+                printf("Erro, nao existem materiais suficientes.");
+                system(" PAUSE ");
+                menu(stock, cars, machine);
             }
             break;
     }
@@ -96,7 +121,7 @@ void initializeStructure(stockExistente *stock){
 }
 
 //Establish menu
-void menu(stockExistente *stock, car *cars){
+void menu(stockExistente *stock, car *cars, int machine[5]){
     system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
@@ -123,7 +148,7 @@ void menu(stockExistente *stock, car *cars){
             addStock(stock, fileName);
             break;
         case '3':
-            buildCar(stock, cars);
+            buildCar(stock, cars, machine);
             break;
         case '4':
             break;
@@ -146,7 +171,7 @@ void menu(stockExistente *stock, car *cars){
             break;
     }
     system(" PAUSE "); // Esperar por input do utilizador
-    menu(stock, cars);
+    menu(stock, cars, machine);
 }
 
 
@@ -158,7 +183,7 @@ int main()
     addStock(stock, "stock.txt");      //Zona de adição do add Stock
     char brand[9], status[11], place, op[3];
     unsigned short timeLeft = 0;
-
+    int machine[5] = {0};
 
     FILE *fp;
     int i;
@@ -180,9 +205,12 @@ int main()
     i = 0;
 
     while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
+            if (cars[i].place != 0){
+                machine[cars[i].place - 1] = 1;
+            }
             i++;
         }
     fclose(fp);
 
-    menu(stock, cars);
+    menu(stock, cars, machine);
 }
