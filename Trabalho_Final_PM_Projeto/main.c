@@ -8,6 +8,14 @@ typedef struct{
     double price;
 }stockExistente;
 
+typedef struct{
+    char brand[9];
+    char status[11];
+    char place;
+    unsigned short timeLeft;
+    char op[3]; //operação
+}car[300];
+
 void buildCar(stockExistente *stock){
 
     int option = 0;
@@ -23,27 +31,27 @@ void buildCar(stockExistente *stock){
     switch(option){
         case 1:
             if(stock[0].quantity >= 2 && stock[2].quantity >= 1 && stock[3].quantity >= 3){
-                printf("Existem materiais suficientes para a construcao do Renault.").
+                printf("Existem materiais suficientes para a construcao do Renault.");
             }
             break;
         case 2:
             if(stock[1].quantity >= 3 && stock[2].quantity >= 2 && stock[5].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Mercedes.").
+                printf("Existem materiais suficientes para a construcao do Mercedes.");
             }
             break;
         case 3:
             if(stock[0].quantity >= 4 && stock[2].quantity >= 1 && stock[3].quantity >= 3 && stock[4].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Honda.").
+                printf("Existem materiais suficientes para a construcao do Honda.");
             }
             break;
         case 4:
-            if(stock[1].quantity >= 1 && stock[2].quantity >= 2 && stock[3].quantity >= 3 && stock[4].quantity >= 1 && stock[5].quantity = 3){
-                printf("Existem materiais suficientes para a construcao do Honda.").
+            if(stock[1].quantity >= 1 && stock[2].quantity >= 2 && stock[3].quantity >= 3 && stock[4].quantity >= 1 && stock[5].quantity >= 3){
+                printf("Existem materiais suficientes para a construcao do Honda.");
             }
             break;
         case 5:
             if(stock[0].quantity >= 2 && stock[1].quantity >= 2 && stock[2].quantity >= 3 && stock[5].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Honda.").
+                printf("Existem materiais suficientes para a construcao do Honda.");
             }
             break;
     }
@@ -147,6 +155,33 @@ int main()
     stockExistente stock[6];
     initializeStructure(stock);     //Zona de inicialização do stock
     addStock(stock, "stock.txt");      //Zona de adição do add Stock
+    char brand[9], status[11], place, op[3];
+    unsigned short timeLeft = 0;
+
+    car cars;
+    FILE *fp;
+    int i;
+    for(i = 0; i<20; i++){
+        cars[i].brand;
+        cars[i].status;
+        cars[i].place = '-';
+        cars[i].timeLeft = 0;
+        cars[i].op;
+        strcpy(cars[i].brand, "\0");
+        strcpy(cars[i].status, "Waiting\0");
+        strcpy(cars[i].op, "---\0");
+    }
+
+    fp = fopen("processing.txt", "r");
+    if(fp == NULL){         //Verificar se o ficheiro existe
+        printf("Erro na leitura do ficheiro.\n");
+    }
+    i = 0;
+
+    while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
+            i++;
+        }
+    fclose(fp);
 
     menu(stock);
 }
