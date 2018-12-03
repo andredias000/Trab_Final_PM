@@ -6,73 +6,51 @@ typedef struct{
     int quantity;       //Criação de uma estrutura tendo em vista a facilitação da adição
     char type[9];       //de novos ficherios de stock e adiciona-los com mais facilidade
     double price;
+}stockExistente;
 
-}stockExistente[6];
-
-void addStock(){
-    fflush(stdin); //Limpar Buffer de Input
-    FILE *stockFile;
-    FILE *additionalFile;
-
-    char adicionarStock[100];
-    char linha_novo_stock;
-
-    printf("Por favor introduza o nome do ficheiro incluindo o \".txt\"\n");
-    gets(adicionarStock);
-
-    stockFile = fopen(adicionarStock, "r");
-    additionalFile = fopen("stock.txt", "rw");
-
-    if(additionalFile == NULL){
-        printf("Erro na leitura do ficheiro.\n");
-    }
-    fclose(additionalFile);
-    fclose(stockFile);
-}
-void showStock(){
+void addStock(stockExistente *stock, char fileName[30]){
     int id;
     char type[9];
     double price;
-    double totalPreco = 0;
-    stockExistente stock;
 
     //Abrir o ficheiro
     FILE *fp;
-    fp = fopen("stock.txt", "r");
+    fp = fopen(fileName, "r");
     if(fp == NULL){         //Verificar se o ficheiro existe
         printf("Erro na leitura do ficheiro.\n");
     }
-    for (int i=0; i<6; i++){
-        stock[i].quantity = 0;
-        stock[i].price = 0.0;   //Dar reset a quantidade da estrutura
-    }
-    while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){     //Ler o Ficheiro
-        printf("%d  %s  %.2lf\n", id, type, price);
 
+    while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){     //Ler o Ficheiro
         strcpy(stock[id-1].type, type);    //copiar o nome do tipo para a estrutura
         stock[id-1].quantity++;    //Adicinar a quantidade de material dependendo do tipo à estrutura
         stock[id-1].price += price;    //Adicionar o preço total à estrutura
     }
+    fclose(fp);
+}
 
-    printf("\n");
+void showStock(stockExistente *stock){
+    double totalPreco = 0;
 
     for (int i=0; i<6; i++){
         totalPreco += stock[i].price;  //Preço total do stock a apresentar
         printf("Existem %d materiais de %s com um valor de %.2f\n", stock[i].quantity, stock[i].type, stock[i].price);      //Imprimir a soma dos materiais e o respetivo tipo
     }
-
+    printf("\n");
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
-    fclose(fp);
-
-    /*system(" PAUSE "); // Esperar por input do utilizador
-    menu();*/
 }
 
+void initializeStructure(stockExistente *stock){
+    for (int i=0; i<6; i++){
+        stock[i].quantity = 0;
+        stock[i].price = 0.0;   //Dar reset a quantidade da estrutura
+    }
+}
 
 //Establish menu
-void menu(){
+void menu(stockExistente *stock){
     system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
+    char fileName[30];
 
     printf("    ****Menu de Administrador da Fabrica****\n");
     printf("\n  1 - Mostrar Stock\n");
@@ -87,10 +65,13 @@ void menu(){
 
     switch(opcao){
         case '1':
-            showStock();
+            showStock(stock);
             break;
         case '2':
-            addStock();
+            fflush(stdin);
+            printf("Por favor introduza o nome do ficheiro que quer adicionar ao stock, incluindo o  .txt:\n");
+            gets(fileName);
+            addStock(stock, fileName);
             break;
         case '3':
             break;
@@ -112,18 +93,18 @@ void menu(){
             break;
         default:
             printf("Opcao Invalida.\n");
-            /*system(" PAUSE ");
-            menu();*/
             break;
     }
     system(" PAUSE "); // Esperar por input do utilizador
-    menu();
+    menu(stock);
 }
 
 
 int main()
 {
+    stockExistente stock[6];
+    initializeStructure(stock);     //Zona de inicialização do stock
+    addStock(stock, "stock.txt");      //Zona de adição do add Stock
 
-
-    menu();
+    menu(stock);
 }

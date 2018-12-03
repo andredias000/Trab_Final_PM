@@ -1,2 +1,6 @@
-5 Aco 14.50
-2 Ferro 10.50
+1 Ferro 1.40
+1 Ferro 1.40
+1 Ferro 1.40
+2 Aluminio 7.80
+2 Aluminio 7.80
+3 Vidro 12.50
