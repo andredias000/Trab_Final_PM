@@ -16,6 +16,37 @@ typedef struct{
     char op[3]; //operação
 }car;
 
+void processingTxt(car *cars, int machine[5]){
+
+    FILE *fp;
+    int i;
+    for(i = 0; i<20; i++){
+        cars[i].brand;
+        cars[i].status;
+        cars[i].place = '-';
+        cars[i].timeLeft = 0;
+        cars[i].op;
+        strcpy(cars[i].brand, "\0");
+        strcpy(cars[i].status, "Waiting\0");
+        strcpy(cars[i].op, "---\0");
+    }
+
+    fp = fopen("processing.txt", "r");
+    if(fp == NULL){         //Verificar se o ficheiro existe
+        printf("Erro na leitura do ficheiro.\n");
+    }
+    i = 0;
+
+    while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
+            if (cars[i].place != 0){
+                machine[cars[i].place - 1] = 1;
+            }
+            i++;
+        }
+    fclose(fp);
+
+}
+
 void buildCar(stockExistente *stock, car *cars, int machine[5]){
 
     int option = 0;
@@ -185,32 +216,6 @@ int main()
     unsigned short timeLeft = 0;
     int machine[5] = {0};
 
-    FILE *fp;
-    int i;
-    for(i = 0; i<20; i++){
-        cars[i].brand;
-        cars[i].status;
-        cars[i].place = '-';
-        cars[i].timeLeft = 0;
-        cars[i].op;
-        strcpy(cars[i].brand, "\0");
-        strcpy(cars[i].status, "Waiting\0");
-        strcpy(cars[i].op, "---\0");
-    }
-
-    fp = fopen("processing.txt", "r");
-    if(fp == NULL){         //Verificar se o ficheiro existe
-        printf("Erro na leitura do ficheiro.\n");
-    }
-    i = 0;
-
-    while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
-            if (cars[i].place != 0){
-                machine[cars[i].place - 1] = 1;
-            }
-            i++;
-        }
-    fclose(fp);
-
+    processingTxt(cars, machine); //por o ficheiro processing numa estrutura
     menu(stock, cars, machine);
 }
