@@ -63,51 +63,71 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
         case 1:
             if(stock[0].quantity >= 2 && stock[2].quantity >= 1 && stock[3].quantity >= 3){
                 printf("Existem materiais suficientes para a construcao do Renault.");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Renault (2-Ferro, 1-Vidro, 3-Plastico)");
+                stock[0].quantity = stock[0].quantity - 2;
+                stock[2].quantity--;
+                stock[3].quantity = stock[3].quantity - 3;
             }
             else{
                 printf("Erro, nao existem materiais suficientes.");
                 system(" PAUSE ");
-                menu(stock, cars, machine);
             }
             break;
         case 2:
             if(stock[1].quantity >= 3 && stock[2].quantity >= 2 && stock[5].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Mercedes.");
+                printf("Existem materiais suficientes para a construcao do Mercedes.\n");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Mercedes (3-Aluminio, 2-Vidro, 2-Aco)\n");
+                stock[1].quantity = stock[1].quantity - 3;
+                stock[2].quantity = stock[2].quantity - 2;
+                stock[5].quantity = stock[5].quantity - 2;
             }
             else{
-                printf("Erro, nao existem materiais suficientes.");
+                printf("\nErro, nao existem materiais suficientes.");
                 system(" PAUSE ");
-                menu(stock, cars, machine);
             }
             break;
         case 3:
             if(stock[0].quantity >= 4 && stock[2].quantity >= 1 && stock[3].quantity >= 3 && stock[4].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Honda.");
+                printf("Existem materiais suficientes para a construcao do Honda.\n");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Honda (4-Ferro, 1-Vidro, 3-Plastico, 2-Borracha)\n");
+                stock[0].quantity = stock[0].quantity - 4;
+                stock[2].quantity--;
+                stock[3].quantity = stock[3].quantity - 3;
+                stock[4].quantity = stock[4].quantity - 2;
             }
             else{
-                printf("Erro, nao existem materiais suficientes.");
+                printf("\nErro, nao existem materiais suficientes.");
                 system(" PAUSE ");
-                menu(stock, cars, machine);
+
             }
             break;
         case 4:
             if(stock[1].quantity >= 1 && stock[2].quantity >= 2 && stock[3].quantity >= 3 && stock[4].quantity >= 1 && stock[5].quantity >= 3){
-                printf("Existem materiais suficientes para a construcao do Honda.");
+                printf("Existem materiais suficientes para a construcao do Ford.\n");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Ford (1-Aluminio, 2-Vidro, 3-Plastico, 1-Borracha, 3-Aco)\n");
+                stock[1].quantity--;
+                stock[2].quantity = stock[2].quantity - 2;
+                stock[3].quantity = stock[3].quantity - 3;
+                stock[4].quantity--;
+                stock[5].quantity = stock[5].quantity - 3;
             }
             else{
-                printf("Erro, nao existem materiais suficientes.");
+                printf("\nErro, nao existem materiais suficientes.");
                 system(" PAUSE ");
-                menu(stock, cars, machine);
             }
             break;
         case 5:
             if(stock[0].quantity >= 2 && stock[1].quantity >= 2 && stock[2].quantity >= 3 && stock[5].quantity >= 2){
-                printf("Existem materiais suficientes para a construcao do Honda.");
+                printf("Existem materiais suficientes para a construcao do Ferrari.\n");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Ferrari (2-Ferro, 1-Aluminio, 3-Vidro, 2-Aco)\n");
+                stock[0].quantity = stock[0].quantity - 2;
+                stock[1].quantity = stock[1].quantity - 2;
+                stock[2].quantity = stock[2].quantity - 3;
+                stock[5].quantity = stock[5].quantity - 2;
             }
             else{
-                printf("Erro, nao existem materiais suficientes.");
+                printf("\nErro, nao existem materiais suficientes.");
                 system(" PAUSE ");
-                menu(stock, cars, machine);
             }
             break;
     }
