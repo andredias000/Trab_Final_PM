@@ -5,6 +5,7 @@
 typedef struct{
     int quantity;       //Criação de uma estrutura tendo em vista a facilitação da adição
     char type[9];       //de novos ficherios de stock e adiciona-los com mais facilidade
+    double Totalprice;
     double price;
 }stockExistente;
 
@@ -16,6 +17,21 @@ typedef struct{
     char op[3]; //operação
 }car;
 
+typedef struct{
+    int id;
+    char ops[3];
+    int time[3];
+    double cost;
+    int totalTime;
+}station;
+
+void stationsDat(car *cars, int machine[5], station *stations){
+    FILE *station;
+
+    station = fopen("stations.dat", "rb");
+
+    fclose(station);
+}
 void processingTxt(car *cars, int machine[5]){
 
     FILE *fp;
@@ -62,15 +78,14 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
     switch(option){
         case 1:
             if(stock[0].quantity >= 2 && stock[2].quantity >= 1 && stock[3].quantity >= 3){
-                printf("Existem materiais suficientes para a construcao do Renault.");
-                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Renault (2-Ferro, 1-Vidro, 3-Plastico)");
+                printf("Existem materiais suficientes para a construcao do Renault.\n");
+                printf("Vai se proceder a remocao dos materiais necessarios a criacao de um Renault (2-Ferro, 1-Vidro, 3-Plastico)\n");
                 stock[0].quantity = stock[0].quantity - 2;
                 stock[2].quantity--;
                 stock[3].quantity = stock[3].quantity - 3;
             }
             else{
-                printf("Erro, nao existem materiais suficientes.");
-                system(" PAUSE ");
+                printf("\n\nErro, nao existem materiais suficientes.");
             }
             break;
         case 2:
@@ -82,8 +97,7 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
                 stock[5].quantity = stock[5].quantity - 2;
             }
             else{
-                printf("\nErro, nao existem materiais suficientes.");
-                system(" PAUSE ");
+                printf("\n\nErro, nao existem materiais suficientes.");
             }
             break;
         case 3:
@@ -96,9 +110,7 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
                 stock[4].quantity = stock[4].quantity - 2;
             }
             else{
-                printf("\nErro, nao existem materiais suficientes.");
-                system(" PAUSE ");
-
+                printf("\n\nErro, nao existem materiais suficientes.");
             }
             break;
         case 4:
@@ -112,8 +124,7 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
                 stock[5].quantity = stock[5].quantity - 3;
             }
             else{
-                printf("\nErro, nao existem materiais suficientes.");
-                system(" PAUSE ");
+                printf("\n\nErro, nao existem materiais suficientes.");
             }
             break;
         case 5:
@@ -126,8 +137,7 @@ void buildCar(stockExistente *stock, car *cars, int machine[5]){
                 stock[5].quantity = stock[5].quantity - 2;
             }
             else{
-                printf("\nErro, nao existem materiais suficientes.");
-                system(" PAUSE ");
+                printf("\n\nErro, nao existem materiais suficientes.");
             }
             break;
     }
@@ -148,7 +158,8 @@ void addStock(stockExistente *stock, char fileName[30]){
     while(fscanf(fp, "%d %s %lf", &id, type, &price)!=EOF){     //Ler o Ficheiro
         strcpy(stock[id-1].type, type);    //copiar o nome do tipo para a estrutura
         stock[id-1].quantity++;    //Adicinar a quantidade de material dependendo do tipo à estrutura
-        stock[id-1].price += price;    //Adicionar o preço total à estrutura
+        stock[id-1].Totalprice += price;    //Adicionar o preço total à estrutura
+        stock[id-1].price = price;
     }
     fclose(fp);
 }
@@ -157,8 +168,9 @@ void showStock(stockExistente *stock){
     double totalPreco = 0;
 
     for (int i=0; i<6; i++){
-        totalPreco += stock[i].price;  //Preço total do stock a apresentar
-        printf("Existem %d materiais de %s com um valor de %.2f\n", stock[i].quantity, stock[i].type, stock[i].price);      //Imprimir a soma dos materiais e o respetivo tipo
+        stock[i].Totalprice = stock[i].price*stock[i].quantity;
+        totalPreco += stock[i].Totalprice;  //Preço total do stock a apresentar
+        printf("Existem %d materiais de %s com um valor de %.2f\n", stock[i].quantity, stock[i].type, stock[i].Totalprice);      //Imprimir a soma dos materiais e o respetivo tipo
     }
     printf("\n");
     printf("\nO valor total do stock e: %.2lf\n\n", totalPreco);
@@ -171,9 +183,23 @@ void initializeStructure(stockExistente *stock){
     }
 }
 
+void writeToStock(stockExistente *stock){
+    FILE *estoke;
+
+    estoke = fopen("stock.txt", "w");
+
+    for(int i=0; i<6; i++){
+        fputc(stock[i].quantity, estoke);
+        fputs(stock[i].type, estoke);
+        fputc(stock[i].price, estoke);
+    }
+
+    fclose(estoke);
+}
+
 //Establish menu
 void menu(stockExistente *stock, car *cars, int machine[5]){
-    system("@cls||clear"); //Limpar o ecra
+    //system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
 
@@ -201,7 +227,6 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
         case '3':
             buildCar(stock, cars, machine);
             break;
-        case '4':
             break;
         case '5':
             break;
@@ -210,11 +235,13 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
         case 'S':
             printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
             system(" PAUSE ");
+            writeToStock(stock);
             exit(1);
             break;
         case 's':
             printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
             system(" PAUSE ");
+            writeToStock(stock);
             exit(1);
             break;
         default:
@@ -230,12 +257,14 @@ int main()
 {
     stockExistente stock[6];
     car cars[300];
+    station stations[5];
     initializeStructure(stock);     //Zona de inicialização do stock
     addStock(stock, "stock.txt");      //Zona de adição do add Stock
     char brand[9], status[11], place, op[3];
     unsigned short timeLeft = 0;
     int machine[5] = {0};
 
+    stationsDat(cars, machine, stations); //ler o ficheiro binario e colocar numa estrutura
     processingTxt(cars, machine); //por o ficheiro processing numa estrutura
     menu(stock, cars, machine);
 }
