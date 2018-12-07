@@ -37,11 +37,8 @@ void processingTxt(car *cars, int machine[5]){
     FILE *fp;
     int i;
     for(i = 0; i<20; i++){
-        cars[i].brand = {0};
-        cars[i].status = {0};
         cars[i].place = '-';
         cars[i].timeLeft = 0;
-        cars[i].op = {0};
         strcpy(cars[i].brand, "\0");
         strcpy(cars[i].status, "Waiting\0");
         strcpy(cars[i].op, "---\0");
@@ -199,7 +196,7 @@ void writeToStock(stockExistente *stock){
 
 //Establish menu
 void menu(stockExistente *stock, car *cars, int machine[5]){
-    //system("@cls||clear"); //Limpar o ecra
+    system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
 
@@ -258,8 +255,8 @@ int main()
     stockExistente stock[6];
     car cars[300];
     station stations[5];
-    char brand[9], status[11], place, op[3];
-    unsigned short timeLeft = 0;
+    /*char brand[9], status[11], place, op[3];
+    unsigned short timeLeft = 0;*/
     int machine[5] = {0};
 
     initializeStructure(stock);     //Zona de inicializa��o do stock
