@@ -1,6 +1,6 @@
-Ferro
-Aluminio
-Vidro
-Plastico
-Borracha
-Aco
+Existem 15 materiais de Ferro com um valor de 21.00
+Existem 11 materiais de Aluminio com um valor de 85.80
+Existem 14 materiais de Vidro com um valor de 175.00
+Existem 16 materiais de Plastico com um valor de 35.20
+Existem 16 materiais de Borracha com um valor de 24.00
+Existem 13 materiais de Aco com um valor de 42.90
