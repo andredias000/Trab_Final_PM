@@ -25,10 +25,19 @@ typedef struct{
     int totalTime;
 }station;
 
+
+/*
+Pedir ajuda sobre a estrutura do ficheiro dat
+Pedir ajuda sobre o suposto tamanho do ficheiro dat (21bytes por cada estacao estimativa).
+*/
 void stationsDat(car *cars, int machine[5], station *stations){
     FILE *station;
 
     station = fopen("stations.dat", "rb");
+
+    fread(stations, sizeof(stations), 2, station);
+
+    printf("%d %d", stations[0].id, stations[1].id);
 
     fclose(station);
 }
@@ -196,7 +205,7 @@ void writeToStock(stockExistente *stock){
 
 //Establish menu
 void menu(stockExistente *stock, car *cars, int machine[5]){
-    system("@cls||clear"); //Limpar o ecra
+    //system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
 
