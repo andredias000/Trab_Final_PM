@@ -192,12 +192,13 @@ void initializeStructure(stockExistente *stock){
 void writeToStock(stockExistente *stock){
     FILE *estoke;
 
-    estoke = fopen("stock.txt", "w");
+    estoke = fopen("novoStock.txt", "w");
 
     for(int i=0; i<6; i++){
         fputc(stock[i].quantity, estoke);
         fputs(stock[i].type, estoke);
         fputc(stock[i].price, estoke);
+        fputs("\n", estoke);
     }
 
     fclose(estoke);
