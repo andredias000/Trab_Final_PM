@@ -24,7 +24,10 @@ typedef struct{
     double cost;
     int totalTime;
 }station;
-
+/*
+Pedir ajuda sobre a estrutura do ficheiro dat
+Pedir ajuda sobre o suposto tamanho do ficheiro dat (21bytes por cada estacao estimativa).
+*/
 void stationsDat(car *cars, int machine[5], station *stations){
     FILE *station;
 
@@ -55,12 +58,51 @@ void processingTxt(car *cars, int machine[5]){
                 machine[cars[i].place - 1] = 1;
             }
             i++;
-        }
+    }
     fclose(fp);
 
 }
 
-void buildCar(stockExistente *stock, car *cars, int machine[5]){
+void statistics(){
+
+    printf("\n***State Chart***\n\n\n");
+    printf("Processing: ");
+
+    for(int i = 0; i<5; i++){ //VALORES DE TESTE!!
+        printf("*");
+    }
+    printf("\n");
+
+    printf("Waiting:    ");
+
+    for(int i = 0; i<5; i++){   //VALORES DE TESTE!!
+        printf("*");
+    }
+    printf("\n");
+
+    printf("Finished:   ");
+
+    for(int i = 0; i<5; i++){   //VALORES DE TESTE!!
+        printf("*");
+    }
+    printf("\n");
+
+}
+void factoryState(){
+
+    printf("Estado Atual das Maquinas:\n\n");
+    printf("  1           2           3           4           5");
+    printf("\n");
+    printf(" ---         ---         ---         ---         ---");
+    printf("\n");
+    printf("|   |       |   |       |   |       |   |       |   |");
+    printf("\n");
+    printf(" ---         ---         ---         ---         ---");
+    printf("\n");
+
+}
+
+void materialVerification(stockExistente *stock, car *cars, int machine[5]){
 
     int option = 0;
 
@@ -176,19 +218,19 @@ void showStock(stockExistente *stock){
 void initializeStructure(stockExistente *stock){
     for (int i=0; i<6; i++){
         stock[i].quantity = 0;
-        stock[i].price = 0.0;   //Dar reset a quantidade da estrutura
+        stock[i].price = 0.0;
+        stock[i].Totalprice = 0.0;   //Dar reset a quantidade da estrutura
     }
 }
 
 void writeToStock(stockExistente *stock){
     FILE *estoke;
 
-    estoke = fopen("stock.txt", "w");
+    estoke = fopen("novoStock.txt", "w");
 
     for(int i=0; i<6; i++){
-        fputc(stock[i].quantity, estoke);
-        fputs(stock[i].type, estoke);
-        fputc(stock[i].price, estoke);
+        fprintf(estoke, "Existem %d materiais de %s com um valor de %.2f", stock[i].quantity, stock[i].type, stock[i].Totalprice);
+        fputs("\n", estoke);
     }
 
     fclose(estoke);
@@ -222,10 +264,13 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
             addStock(stock, fileName);
             break;
         case '3':
-            buildCar(stock, cars, machine);
+            materialVerification(stock, cars, machine);
             break;
+        case '4':
+            factoryState();
             break;
         case '5':
+            statistics();
             break;
         case '6':
             break;
