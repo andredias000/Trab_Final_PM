@@ -33,14 +33,20 @@ void stationsDat(car *cars, station *stations){
 
     for(int i = 0; i<5; i++){
         fread(stations+i, sizeof(station), 1, stationFile);
+<<<<<<< HEAD
     }
 
+=======
+        //printf("%d %c%c%c   %d %d %d   %.2f %d\n", stations[i].id, stations[i].ops[0], stations[i].ops[1], stations[i].ops[2], stations[i].time[0], stations[i].time[1], stations[i].time[2], stations[i].cost, stations[i].totalTime);
+    }
+>>>>>>> Ricardo
     fclose(stationFile);
 }
 void processingTxt(car *cars, station *stations){
 
     FILE *fp;
     int i;
+
     for(i = 0; i<20; i++){
         cars[i].place = '-';
         cars[i].timeLeft = 0;
@@ -57,7 +63,10 @@ void processingTxt(car *cars, station *stations){
 
     while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
             if (cars[i].place != 0){
+<<<<<<< HEAD
                 //[cars[i].place - 1] = 1;
+=======
+>>>>>>> Ricardo
             }
             i++;
     }
@@ -94,6 +103,10 @@ void statistics(){
     printf("\n");
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Ricardo
 void map(station *stations){
 
     printf("Estado Atual das Maquinas:\n\n");
@@ -249,7 +262,11 @@ void writeToStock(stockExistente *stock){
 
 //Establish menu
 void menu(stockExistente *stock, car *cars, station *stations){
+<<<<<<< HEAD
     system("@cls||clear"); //Limpar o ecra
+=======
+    //system("@cls||clear"); //Limpar o ecra
+>>>>>>> Ricardo
     char opcao=' ';
     char fileName[30];
 
@@ -260,7 +277,11 @@ void menu(stockExistente *stock, car *cars, station *stations){
     printf("  4 - Estado da Fabrica\n");
     printf("  5 - Estatisticas\n");
     printf("  6 - Passar Tempo\n");
+<<<<<<< HEAD
     printf("  7 - Mapa da fabrica\n");
+=======
+    printf("  7 - Mapa");
+>>>>>>> Ricardo
     printf("  S - Sair\n");
     printf("\nOption: ");
     scanf(" %c", &opcao);
@@ -279,7 +300,11 @@ void menu(stockExistente *stock, car *cars, station *stations){
             materialVerification(stock, cars, stations);
             break;
         case '4':
+<<<<<<< HEAD
             //factoryState();
+=======
+            map(stations);
+>>>>>>> Ricardo
             break;
         case '5':
             statistics();
@@ -287,7 +312,11 @@ void menu(stockExistente *stock, car *cars, station *stations){
         case '6':
             break;
         case '7':
+<<<<<<< HEAD
             map(stations);
+=======
+            map();
+>>>>>>> Ricardo
             break;
         case 'S':
             printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
@@ -306,7 +335,11 @@ void menu(stockExistente *stock, car *cars, station *stations){
             break;
     }
     system(" PAUSE "); // Esperar por input do utilizador
+<<<<<<< HEAD
     menu(stock, cars, stations);
+=======
+    menu(stock, cars);
+>>>>>>> Ricardo
 }
 
 
@@ -315,7 +348,12 @@ int main()
     stockExistente stock[6];
     car cars[300];
     station stations[5];
+<<<<<<< HEAD
     /*unsigned short timeLeft = 0;*/
+=======
+    /*char brand[9], status[11], place, op[3];
+    unsigned short timeLeft = 0;*/
+>>>>>>> Ricardo
 
     initializeStructure(stock);     //Zona de inicializa��o do stock
     addStock(stock, "stock.txt");      //Zona de adi��o do add Stock
