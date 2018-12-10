@@ -25,10 +25,7 @@ typedef struct{
     int totalTime;
     char currentOp;
 }station;
-/*
-Pedir ajuda sobre a estrutura do ficheiro dat
-Pedir ajuda sobre o suposto tamanho do ficheiro dat (21bytes por cada estacao estimativa).
-*/
+
 void stationsDat(car *cars, station *stations){
     FILE *stationFile;
 
@@ -68,6 +65,10 @@ void processingTxt(car *cars, station *stations){
 
 }
 
+void buildCar(car *cars, station *stations){
+
+}
+
 void statistics(){
 
     printf("\n***State Chart***\n\n\n");
@@ -93,21 +94,22 @@ void statistics(){
     printf("\n");
 
 }
-void map(){
+
+void map(station *stations){
 
     printf("Estado Atual das Maquinas:\n\n");
     printf("  1           2           3           4           5");
     printf("\n");
-    printf(" ----         ----         ----         ----         ----");
+    printf(" ---         ---         ---         ---         ---");
     printf("\n");
-    printf("| %c |       | %c |       | %c |       | %c |       | %c |");
+    printf("| %c |       | %c |       | %c |       | %c |       | %c |", stations[0].currentOp, stations[1].currentOp, stations[2].currentOp, stations[3].currentOp, stations[4].currentOp);
     printf("\n");
     printf(" ---         ---         ---         ---         ---");
     printf("\n");
 
 }
 
-void materialVerification(stockExistente *stock, car *cars){
+void materialVerification(stockExistente *stock, car *cars, station *stations){
 
     int option = 0;
 
@@ -127,6 +129,7 @@ void materialVerification(stockExistente *stock, car *cars){
                 stock[0].quantity = stock[0].quantity - 2;
                 stock[2].quantity--;
                 stock[3].quantity = stock[3].quantity - 3;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -139,6 +142,7 @@ void materialVerification(stockExistente *stock, car *cars){
                 stock[1].quantity = stock[1].quantity - 3;
                 stock[2].quantity = stock[2].quantity - 2;
                 stock[5].quantity = stock[5].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -152,6 +156,7 @@ void materialVerification(stockExistente *stock, car *cars){
                 stock[2].quantity--;
                 stock[3].quantity = stock[3].quantity - 3;
                 stock[4].quantity = stock[4].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -166,6 +171,7 @@ void materialVerification(stockExistente *stock, car *cars){
                 stock[3].quantity = stock[3].quantity - 3;
                 stock[4].quantity--;
                 stock[5].quantity = stock[5].quantity - 3;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -179,6 +185,7 @@ void materialVerification(stockExistente *stock, car *cars){
                 stock[1].quantity = stock[1].quantity - 2;
                 stock[2].quantity = stock[2].quantity - 3;
                 stock[5].quantity = stock[5].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -254,6 +261,7 @@ void menu(stockExistente *stock, car *cars, station *stations){
     printf("  4 - Estado da Fabrica\n");
     printf("  5 - Estatisticas\n");
     printf("  6 - Passar Tempo\n");
+    printf("  7 - Mapa");
     printf("  S - Sair\n");
     printf("\nOption: ");
     scanf(" %c", &opcao);
@@ -272,7 +280,7 @@ void menu(stockExistente *stock, car *cars, station *stations){
             materialVerification(stock, cars, stations);
             break;
         case '4':
-            map();
+            map(stations);
             break;
         case '5':
             statistics();
