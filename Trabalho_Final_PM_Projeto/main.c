@@ -33,7 +33,7 @@ void stationsDat(car *cars, station *stations){
 
     for(int i = 0; i<5; i++){
         fread(stations+i, sizeof(station), 1, stationFile);
-        //printf("%d %c%c%c   %d %d %d   %.2f %d\n", stations[i].id, stations[i].ops[0], stations[i].ops[1], stations[i].ops[2], stations[i].time[0], stations[i].time[1], stations[i].time[2], stations[i].cost, stations[i].totalTime);
+        printf("%d %c%c%c   %d %d %d   %.2f %d\n", stations[i].id, stations[i].ops[0], stations[i].ops[1], stations[i].ops[2], stations[i].time[0], stations[i].time[1], stations[i].time[2], stations[i].cost, stations[i].totalTime);
     }
     fclose(stationFile);
 }
@@ -61,7 +61,7 @@ void processingTxt(car *cars, station *stations, int *lastCar){
                     stations[cars[i].place-'1'].currentOp = cars[i].op[2];
             }
             i++;
-            lastCar++;
+            (*lastCar)++;
     }
     for(i=0;i<5;i++){
         if(stations[i].currentOp!='A' && stations[i].currentOp!='B' && stations[i].currentOp!='C' && stations[i].currentOp!='D' && stations[i].currentOp!='E')
@@ -71,60 +71,158 @@ void processingTxt(car *cars, station *stations, int *lastCar){
 
 }
 
+void showProcessing(car *cars, int *lastCar){
+    for(int i=0; i<*lastCar; i++){
+        printf("%s %s %c %hu %c%c%c\n", cars[i].brand, cars[i].status, cars[i].place, cars[i].timeLeft, cars[i].op[0], cars[i].op[1], cars[i].op[2]);
+
+
+    }
+}
+
 void buildCar(car *cars, int option, station *stations, int *lastCar){
+    float processCost[5][3]={0};
+    float lowestPrice=9000.0;
+    char currentStation=0;
+    int j = 0;
+    for(int i=0; i<5; i++){
+        for(int j=0; j<3; j++){
+            if(stations[i].ops[j] != NULL){
+                processCost[i][j] = stations[i].cost * stations[i].time[j];
+            }
+        }
+    }
+    strcpy(cars[*lastCar].status, "Waiting");
     switch(option){
         case 1:
             for(int i=0;i<5;i++){
                 if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'B' || stations[i].ops[1] == 'B' || stations[i].ops[2] == 'B')) //
                 {
-                    stations[i].currentOp = 'B';
-                    cars[lastCar].place = i;
-                    cars[lastCar].status = "Processing";
-                    cars[lastCar].timeLeft = stations[i].time;
+                    if(stations[i].ops[0] == 'B') j = 0;
+                    else if(stations[i].ops[1] == 'B' ) j = 1;
+                    else if(stations[i].ops[2] == 'B' ) j = 2;
+
+                    if(lowestPrice>processCost[i][j]){
+                        currentStation =i+'0';
+                        lowestPrice = processCost[i][j];
+                        stations[i].currentOp = 'B';
+                        strcpy(cars[*lastCar].brand, "Renault");
+                        cars[*lastCar].place = currentStation;
+                        strcpy(cars[*lastCar].status, "Processing");
+                        cars[*lastCar].timeLeft = stations[i].time;
+                    }
                 }
+                else
+                {
+                    strcpy(cars[*lastCar].brand, "Renault");
+                }
+
             }
+            break;
         case 2:
             for(int i=0;i<5;i++){
                 if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'A' || stations[i].ops[1] == 'A' || stations[i].ops[2] == 'A')) //
                 {
-                    stations[i].currentOp = 'A';
-                    cars[lastCar].place = i;
-                    cars[lastCar].status = "Processing";
-                    cars[lastCar].timeLeft = stations[i].time;
+                    if(stations[i].ops[0] == 'A') j = 0;
+                    else if(stations[i].ops[1] == 'A' ) j = 1;
+                    else if(stations[i].ops[2] == 'A' ) j = 2;
+
+                    if(lowestPrice>processCost[i][j]){
+                        currentStation =i+'0';
+                        lowestPrice = processCost[i][j];
+                        stations[i].currentOp = 'A';
+                        strcpy(cars[*lastCar].brand, "Mercedes");
+                        cars[*lastCar].place = currentStation;
+                        strcpy(cars[*lastCar].status, "Processing");
+                        cars[*lastCar].timeLeft = stations[i].time;
+                    }
+                }
+                else
+                {
+                    strcpy(cars[*lastCar].brand, "Mercedes");
                 }
             }
+            break;
         case 3:
             for(int i=0;i<5;i++){
                 if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'B' || stations[i].ops[1] == 'B' || stations[i].ops[2] == 'B')) //
                 {
-                    stations[i].currentOp = 'B';
-                    cars[lastCar].place = i;
-                    cars[lastCar].status = "Processing";
-                    cars[lastCar].timeLeft = stations[i].time;
+                    if(stations[i].ops[0] == 'B') j = 0;
+                    else if(stations[i].ops[1] == 'B' ) j = 1;
+                    else if(stations[i].ops[2] == 'B' ) j = 2;
+
+                    if(lowestPrice>processCost[i][j]){
+                        currentStation =i+'0';
+                        lowestPrice = processCost[i][j];
+                        stations[i].currentOp = 'B';
+                        strcpy(cars[*lastCar].brand, "Honda");
+                        cars[*lastCar].place = currentStation;
+                        strcpy(cars[*lastCar].status, "Processing");
+                        cars[*lastCar].timeLeft = stations[i].time;
+                    }
                 }
-            }
-        case 4:
-            for(int i=0;i<5;i++){
-                if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'A' || stations[i].ops[1] == 'A' || stations[i].ops[2] == 'A')) //
+                else
                 {
-                    stations[i].currentOp = 'A';
-                    cars[lastCar].place = i;
-                    cars[lastCar].status = "Processing";
-                    cars[lastCar].timeLeft = stations[i].time;
-                }
-            }
-        case 5:
-            for(int i=0;i<5;i++){
-                if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'D' || stations[i].ops[1] == 'D' || stations[i].ops[2] == 'D')) //
-                {
-                    stations[i].currentOp = 'D';
-                    cars[lastCar].place = i;
-                    cars[lastCar].status = "Processing";
-                    cars[lastCar].timeLeft = stations[i].time;
+                    strcpy(cars[*lastCar].brand, "Honda");
                 }
             }
             break;
-    }
+        case 4:
+            for(int i=0;i<5;i++){
+                strcpy(cars[*lastCar].status, "Waiting");
+                if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'A' || stations[i].ops[1] == 'A' || stations[i].ops[2] == 'A')) //
+                {
+                    if(stations[i].ops[0] == 'A') j = 0;
+                    else if(stations[i].ops[1] == 'A' ) j = 1;
+                    else if(stations[i].ops[2] == 'A' ) j = 2;
+
+                    if(lowestPrice>processCost[i][j]){
+                        currentStation =i+'0';
+                        lowestPrice = processCost[i][j];
+                        stations[i].currentOp = 'A';
+                        strcpy(cars[*lastCar].brand, "Ford");
+                        cars[*lastCar].place = currentStation;
+                        strcpy(cars[*lastCar].status, "Processing");
+                        cars[*lastCar].timeLeft = stations[i].time;
+                    }
+                }
+                else
+                {
+                    strcpy(cars[*lastCar].brand, "Ford");
+                }
+            }
+            break;
+        case 5:
+            for(int i=0;i<5;i++){
+                strcpy(cars[*lastCar].status, "Waiting");
+                if((stations[i].currentOp == '-') && (stations[i].ops[0] == 'D' || stations[i].ops[1] == 'D' || stations[i].ops[2] == 'D')) //
+                {
+                    if(stations[i].ops[0] == 'D') j = 0;
+                    else if(stations[i].ops[1] == 'D' ) j = 1;
+                    else if(stations[i].ops[2] == 'D' ) j = 2;
+
+                    if(lowestPrice>processCost[i][j]){
+                        currentStation =i+'0';
+                        lowestPrice = processCost[i][j];
+                        stations[i].currentOp = 'D';
+                        strcpy(cars[*lastCar].brand, "Ferrari");
+                        cars[*lastCar].place = currentStation;
+                        strcpy(cars[*lastCar].status, "Processing");
+                        cars[*lastCar].timeLeft = stations[i].time;
+                    }
+                }
+                else
+                {
+                    strcpy(cars[*lastCar].brand, "Ferrari");
+                }
+
+            }
+            break;
+    }//FAZER DEFAULT
+    (*lastCar)++;
+}
+
+void timePass(){
+
 }
 
 void statistics(){
@@ -154,6 +252,7 @@ void statistics(){
 }
 
 void map(station *stations){
+
 
     printf("Estado Atual das Maquinas:\n\n");
     printf("  1           2           3           4           5");
@@ -312,6 +411,7 @@ void writeToStock(stockExistente *stock){
 //Establish menu
 void menu(stockExistente *stock, car *cars, station *stations, int *lastCar){
     //system("@cls||clear"); //Limpar o ecra
+    int option=0;
     char opcao=' ';
     char fileName[30];
 
@@ -322,7 +422,6 @@ void menu(stockExistente *stock, car *cars, station *stations, int *lastCar){
     printf("  4 - Estado da Fabrica\n");
     printf("  5 - Estatisticas\n");
     printf("  6 - Passar Tempo\n");
-    printf("  7 - Mapa\n");
     printf("  S - Sair\n");
     printf("\nOption: ");
     scanf(" %c", &opcao);
@@ -341,15 +440,25 @@ void menu(stockExistente *stock, car *cars, station *stations, int *lastCar){
             materialVerification(stock, cars, stations, lastCar);
             break;
         case '4':
-            map(stations);
+            system("@cls||clear");
+            printf("1-Mapa\n");
+            printf("2-Processing\n");
+            scanf("%d", &option);
+
+            switch(option){
+                case 1:
+                    map(stations);
+                    break;
+                case 2:
+                    showProcessing(cars, lastCar);
+            }
+
             break;
         case '5':
             statistics();
             break;
         case '6':
-            break;
-        case '7':
-            map(stations);
+            timePass();
             break;
         case 'S':
             printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
@@ -386,6 +495,6 @@ int main()
 
 
     stationsDat(cars, stations); //ler o ficheiro binario e colocar numa estrutura
-    processingTxt(cars, stations, lastCar); //por o ficheiro processing numa estrutura
+    processingTxt(cars, stations, &lastCar); //por o ficheiro processing numa estrutura
     menu(stock, cars, stations, &lastCar);
 }
