@@ -23,22 +23,25 @@ typedef struct{
     int time[3];
     double cost;
     int totalTime;
+    char currentOp;
 }station;
-/*
-Pedir ajuda sobre a estrutura do ficheiro dat
-Pedir ajuda sobre o suposto tamanho do ficheiro dat (21bytes por cada estacao estimativa).
-*/
-void stationsDat(car *cars, int machine[5], station *stations){
-    FILE *station;
 
-    station = fopen("stations.dat", "rb");
+void stationsDat(car *cars, station *stations){
+    FILE *stationFile;
 
-    fclose(station);
+    stationFile = fopen("stations.dat", "rb");
+
+    for(int i = 0; i<5; i++){
+        fread(stations+i, sizeof(station), 1, stationFile);
+        //printf("%d %c%c%c   %d %d %d   %.2f %d\n", stations[i].id, stations[i].ops[0], stations[i].ops[1], stations[i].ops[2], stations[i].time[0], stations[i].time[1], stations[i].time[2], stations[i].cost, stations[i].totalTime);
+    }
+    fclose(stationFile);
 }
-void processingTxt(car *cars, int machine[5]){
+void processingTxt(car *cars, station *stations){
 
     FILE *fp;
     int i;
+
     for(i = 0; i<20; i++){
         cars[i].place = '-';
         cars[i].timeLeft = 0;
@@ -55,11 +58,14 @@ void processingTxt(car *cars, int machine[5]){
 
     while(fscanf(fp, "%s %s %c %hu %c%c%c", &cars[i].brand, &cars[i].status, &cars[i].place, &cars[i].timeLeft, &cars[i].op[0], &cars[i].op[1], &cars[i].op[2])!=EOF){     //Ler o Ficheiro
             if (cars[i].place != 0){
-                machine[cars[i].place - 1] = 1;
             }
             i++;
     }
     fclose(fp);
+
+}
+
+void buildCar(car *cars, station *stations){
 
 }
 
@@ -88,21 +94,22 @@ void statistics(){
     printf("\n");
 
 }
-void factoryState(){
+
+void map(station *stations){
 
     printf("Estado Atual das Maquinas:\n\n");
     printf("  1           2           3           4           5");
     printf("\n");
     printf(" ---         ---         ---         ---         ---");
     printf("\n");
-    printf("|   |       |   |       |   |       |   |       |   |");
+    printf("| %c |       | %c |       | %c |       | %c |       | %c |", stations[0].currentOp, stations[1].currentOp, stations[2].currentOp, stations[3].currentOp, stations[4].currentOp);
     printf("\n");
     printf(" ---         ---         ---         ---         ---");
     printf("\n");
 
 }
 
-void materialVerification(stockExistente *stock, car *cars, int machine[5]){
+void materialVerification(stockExistente *stock, car *cars, station *stations){
 
     int option = 0;
 
@@ -122,6 +129,7 @@ void materialVerification(stockExistente *stock, car *cars, int machine[5]){
                 stock[0].quantity = stock[0].quantity - 2;
                 stock[2].quantity--;
                 stock[3].quantity = stock[3].quantity - 3;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -134,6 +142,7 @@ void materialVerification(stockExistente *stock, car *cars, int machine[5]){
                 stock[1].quantity = stock[1].quantity - 3;
                 stock[2].quantity = stock[2].quantity - 2;
                 stock[5].quantity = stock[5].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -147,6 +156,7 @@ void materialVerification(stockExistente *stock, car *cars, int machine[5]){
                 stock[2].quantity--;
                 stock[3].quantity = stock[3].quantity - 3;
                 stock[4].quantity = stock[4].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -161,6 +171,7 @@ void materialVerification(stockExistente *stock, car *cars, int machine[5]){
                 stock[3].quantity = stock[3].quantity - 3;
                 stock[4].quantity--;
                 stock[5].quantity = stock[5].quantity - 3;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -174,6 +185,7 @@ void materialVerification(stockExistente *stock, car *cars, int machine[5]){
                 stock[1].quantity = stock[1].quantity - 2;
                 stock[2].quantity = stock[2].quantity - 3;
                 stock[5].quantity = stock[5].quantity - 2;
+                buildCar(cars, option);
             }
             else{
                 printf("\n\nErro, nao existem materiais suficientes.");
@@ -237,8 +249,8 @@ void writeToStock(stockExistente *stock){
 }
 
 //Establish menu
-void menu(stockExistente *stock, car *cars, int machine[5]){
-    system("@cls||clear"); //Limpar o ecra
+void menu(stockExistente *stock, car *cars, station *stations){
+    //system("@cls||clear"); //Limpar o ecra
     char opcao=' ';
     char fileName[30];
 
@@ -249,6 +261,7 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
     printf("  4 - Estado da Fabrica\n");
     printf("  5 - Estatisticas\n");
     printf("  6 - Passar Tempo\n");
+    printf("  7 - Mapa");
     printf("  S - Sair\n");
     printf("\nOption: ");
     scanf(" %c", &opcao);
@@ -264,15 +277,18 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
             addStock(stock, fileName);
             break;
         case '3':
-            materialVerification(stock, cars, machine);
+            materialVerification(stock, cars, stations);
             break;
         case '4':
-            factoryState();
+            map(stations);
             break;
         case '5':
             statistics();
             break;
         case '6':
+            break;
+        case '7':
+            map();
             break;
         case 'S':
             printf("Obrigado por usar o nosso programa :D. \nRealizado por Ricardo Monteiro (55541) e Andre Dias (55815)\n\n");
@@ -291,7 +307,7 @@ void menu(stockExistente *stock, car *cars, int machine[5]){
             break;
     }
     system(" PAUSE "); // Esperar por input do utilizador
-    menu(stock, cars, machine);
+    menu(stock, cars);
 }
 
 
@@ -302,13 +318,12 @@ int main()
     station stations[5];
     /*char brand[9], status[11], place, op[3];
     unsigned short timeLeft = 0;*/
-    int machine[5] = {0};
 
     initializeStructure(stock);     //Zona de inicializa��o do stock
     addStock(stock, "stock.txt");      //Zona de adi��o do add Stock
 
 
-    stationsDat(cars, machine, stations); //ler o ficheiro binario e colocar numa estrutura
-    processingTxt(cars, machine); //por o ficheiro processing numa estrutura
-    menu(stock, cars, machine);
+    stationsDat(cars, stations); //ler o ficheiro binario e colocar numa estrutura
+    processingTxt(cars, stations); //por o ficheiro processing numa estrutura
+    menu(stock, cars, stations);
 }
